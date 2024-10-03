@@ -1,3 +1,12 @@
 fun main() {
-    println("Hello World!")
+    println(Object)
+    println(DataObject)
+}
+
+object Object {
+
+}
+
+data object DataObject {
+
 }
