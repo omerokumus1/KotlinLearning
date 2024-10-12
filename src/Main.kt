@@ -1,3 +1,8 @@
 fun main() {
-    println("Hello World!")
+    val derived = Derived(BaseImpl(10, 5))
+    println(derived is Base) //* True
+
+    derived.
+
+
 }
