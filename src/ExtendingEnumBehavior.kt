@@ -20,6 +20,7 @@ interface IPrimaryColor : IColor {
     override val type: ColorType
         get() = ColorType.PRIMARY
 }
+
 interface ISecondaryColor : IColor {
     override val type: ColorType
         get() = ColorType.SECONDARY
@@ -38,3 +39,38 @@ enum class SecondaryColor : ISecondaryColor {
         override fun paint() = "green"
     };
 }
+
+
+// ? Using Sealed Interfaces/Classes
+
+// * Define Color sealed class to capture the
+// * type() and paint() behavior
+sealed interface SColor {
+
+    val type: ColorType
+
+    fun paint(): String
+
+}
+
+enum class SPrimaryColor : SColor {
+    RED {
+        override val type: ColorType
+            get() = ColorType.PRIMARY
+
+        override fun paint() = "red"
+    };
+}
+
+enum class SSecondaryColor : SColor {
+    GREEN {
+        override val type: ColorType
+            get() = ColorType.SECONDARY
+
+        override fun paint() = "green"
+    };
+}
+
+
+
+
