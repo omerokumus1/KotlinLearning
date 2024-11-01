@@ -72,5 +72,18 @@ enum class SSecondaryColor : SColor {
 }
 
 
+// ? Objects to create enum-like structure
+data object Red : SColor {
+    override val type: ColorType
+        get() = ColorType.PRIMARY
 
+    override fun paint() = "red"
+}
+
+data object Green : SColor {
+    override val type: ColorType
+        get() = ColorType.SECONDARY
+
+    override fun paint() = "green"
+}
 
