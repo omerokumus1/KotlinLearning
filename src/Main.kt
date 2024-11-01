@@ -9,6 +9,11 @@ fun main() {
 
     Http_Method.Post
 
+    //* Iterate throuhg all the values of the sealed class
+    for (value in UserEvent::class.nestedClasses) {
+        println(value)
+    }
+
 }
 
 fun getError(): DBError {
@@ -37,6 +42,8 @@ class Cls : Err(2) {
 
 }
 
+// * Sealed class as Enum but without nullability
+// * and with additional/different properties
 sealed class UserEvent {
     data object OnClick : UserEvent() {
         val x = 0
