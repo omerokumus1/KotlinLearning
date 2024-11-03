@@ -1,5 +1,5 @@
 fun main() {
-    // ? in keyword example
+    // ! in keyword example
     val consumer = StringConsumer()
 
     //* Output: Consumed: Hello, Kotlin
@@ -12,7 +12,7 @@ fun main() {
     consumer2.consume("" +
             "Hello, Kotlin")
 
-    // ? out keyword example
+    // ! out keyword example
     val producer = StringProducer()
     println(producer.produce())
 
@@ -21,4 +21,38 @@ fun main() {
     // * then below code will not work
     val producer2: Producer<CharSequence> = StringProducer()
     println(producer2.produce())
+
+
+    // ! Covariance (out) Use Cases
+
+    // ? Read-Only Collections
+    // * List is covariant: List<out T>
+    fun printAnimals(animals: List<Animal>) {
+        animals.forEach { println(it) }
+    }
+    val dogs: List<Dog> = listOf(Dog(), Dog())
+    printAnimals(dogs)
+
+
+    // Contravariance (in) Use Cases
+
+    // ? Programming to supertype example
+    val cs: CharSequence = "Hello, Kotlin"
+
+    val genericCS: Producer<CharSequence> = StringProducer()
+
+    // ? Functions with Flexible Input Parameters
+    fun printDetails(items: Consumer<Dog>) {
+        items.consume(Dog())
+    }
+    val animalConsumer = AnimalConsumer()
+    printDetails(animalConsumer)
+
+}
+
+open class Animal
+class Dog : Animal()
+
+class AnimalConsumer : Consumer<Animal> {
+    override fun consume(item: Animal) {}
 }
