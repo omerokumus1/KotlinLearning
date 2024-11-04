@@ -26,6 +26,11 @@ fun main() {
         +Point(3, 4)
     }
 
+    // ? Commutativity
+    println(Point(1, 2) * 3)
+    // ! Does not work unless we overload the operator for Int
+    3 * Point(1, 2)
+
 }
 
 data class Point(val x: Int, val y: Int)
@@ -55,3 +60,7 @@ fun shape(init: Shape.() -> Unit): Shape {
 
     return shape
 }
+
+// ? Commutativity
+operator fun Point.times(scale: Int): Point = Point(x * scale, y * scale)
+operator fun Int.times(point: Point): Point = point * this
