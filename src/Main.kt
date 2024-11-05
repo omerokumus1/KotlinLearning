@@ -1,3 +1,6 @@
+import java.math.BigDecimal
+import java.util.*
+
 fun main() {
     val p1 = Point(0, 1)
     val p2 = Point(1, 2)
@@ -31,6 +34,30 @@ fun main() {
     // ! Does not work unless we overload the operator for Int
     3 * Point(1, 2)
 
+
+    // ? Compound assignment: Ready as soon as you overload binary operators
+    var point = Point(0, 0)
+    point += Point(2, 2)
+    point -= Point(1, 1)
+    point *= Point(2, 2)
+    point /= Point(1, 1)
+    point /= Point(2, 2)
+    point *= 2
+
+    // * For each arithmetic operator, there is a corresponding compound assignment operator which all have the “Assign” suffix.
+    // * That is, there are plusAssign, minusAssign, timesAssign, divAssign, and remAssign:
+
+
+    // ? Comparison
+    val money1 = Money(
+        BigDecimal(100),
+        Currency.getInstance("USD")
+    )
+    val money2 = Money(
+        BigDecimal(100),
+        Currency.getInstance("USD")
+    )
+    val result = money1 > money2
 }
 
 data class Point(val x: Int, val y: Int)
@@ -64,3 +91,32 @@ fun shape(init: Shape.() -> Unit): Shape {
 // ? Commutativity
 operator fun Point.times(scale: Int): Point = Point(x * scale, y * scale)
 operator fun Int.times(point: Point): Point = point * this
+
+class Money(
+    val amount: BigDecimal,
+    val currency: Currency
+) : Comparable<Money> {
+
+    override fun compareTo(other: Money): Int {
+        return amount.compareTo(other.amount)
+    }
+
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Money) return false
+
+        if (amount != other.amount) return false
+        if (currency != other.currency) return false
+
+        return true
+    }
+
+    // An equals compatible hashcode implementation
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
+
+
+}
+
