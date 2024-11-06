@@ -81,6 +81,20 @@ fun main() {
 
     newPage[Chapter.ONE, Chapter.TWO] = listOf("Hello", "World")
 
+
+    // ? Invoke operator
+    // * Invoke an instance
+    val getUserInfo = GetUserInfo()
+    val userInfo = getUserInfo(1)
+
+    // * Invoke a companion object
+    val fragment = Fragment(mapOf())
+
+    // * Invoke a companion object with lambda
+    val userFragment = UserFragment {
+        println("UserFragment")
+    }
+
 }
 
 data class Point(val x: Int, val y: Int)
@@ -207,3 +221,27 @@ class Page<T> {
     }
 }
 
+class GetUserInfo {
+    operator fun invoke(id: Int): String {
+        return "User $id"
+    }
+}
+
+class UserFragment private constructor() {
+    companion object {
+        operator fun invoke(init: UserFragment.() -> Unit): UserFragment {
+            val fragment = UserFragment()
+            fragment.init()
+            return fragment
+        }
+    }
+}
+
+abstract class Fragment {
+    companion object {
+        operator fun invoke(args: Map<Any, Any>): Fragment {
+            val fragment = object : Fragment() {}
+            return fragment
+        }
+    }
+}
