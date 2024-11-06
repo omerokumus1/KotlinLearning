@@ -95,6 +95,15 @@ fun main() {
         println("UserFragment")
     }
 
+
+    // ? Iterator operator
+    val pageIterator = Page<String>()
+    for (element in pageIterator) {
+        println(element)
+    }
+
+    // ? RangeTo operator
+    val range = Number.ZERO..Number.FIVE
 }
 
 data class Point(val x: Int, val y: Int)
@@ -163,6 +172,8 @@ enum class Chapter {
 class Page<T> {
     private val elements = mutableListOf<T>()
     private val chapters = mutableMapOf<Chapter, Int>()
+
+    operator fun iterator() = elements.iterator()
 
     operator fun set(index: Int, value: T) {
         elements[index] = value
@@ -245,3 +256,16 @@ abstract class Fragment {
         }
     }
 }
+
+enum class Number {
+    ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE;
+
+    operator fun rangeTo(end: Number): IntRange {
+        return ZERO.ordinal..end.ordinal
+    }
+
+    operator fun rangeUntil(end: Number): IntRange {
+        return ZERO.ordinal..<end.ordinal
+    }
+}
+
