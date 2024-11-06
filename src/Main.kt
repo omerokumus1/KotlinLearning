@@ -58,6 +58,29 @@ fun main() {
         Currency.getInstance("USD")
     )
     val result = money1 > money2
+
+    // ? In operator (contains)
+    val page = Page<String>()
+    println("Hello" in page)
+
+    // ? Getter Indexer
+    val newPage = Page<String>()
+    val firstPage = page[0]
+
+    val ch1 = newPage[Chapter.ONE]
+
+    val elements = newPage[0, 10]
+    val chapters = newPage[Chapter.ONE, Chapter.THREE]
+
+    // ? Setter Indexer
+    newPage[0] = "Hello"
+
+    newPage[Chapter.ONE] = "Hello"
+
+    newPage[0..1] = listOf("Hello", "World")
+
+    newPage[Chapter.ONE, Chapter.TWO] = listOf("Hello", "World")
+
 }
 
 data class Point(val x: Int, val y: Int)
@@ -117,6 +140,70 @@ class Money(
         return super.hashCode()
     }
 
+}
 
+enum class Chapter {
+    ONE, TWO, THREE
+}
+
+class Page<T> {
+    private val elements = mutableListOf<T>()
+    private val chapters = mutableMapOf<Chapter, Int>()
+
+    operator fun set(index: Int, value: T) {
+        elements[index] = value
+    }
+
+    operator fun set(chapter: Chapter, value: T) {
+        val chapterPage = chapters[chapter]
+        if (chapterPage != null) {
+            elements[chapterPage] = value
+        } else {
+            elements.add(value)
+            chapters[chapter] = elements.size - 1
+        }
+    }
+
+    operator fun set(range: IntRange, values: List<T>) {
+        for ((index, value) in values.withIndex()) {
+            elements[range.first + index] = value
+        }
+    }
+
+    operator fun set(fromChapter: Chapter, toChapter: Chapter, values: List<T>) {
+        val from = chapters[fromChapter]!!
+        val to = chapters[toChapter]!!
+        for ((index, value) in values.withIndex()) {
+            elements[from + index] = value
+        }
+    }
+
+
+    operator fun get(index: Int): T {
+        return elements[index]
+    }
+
+    operator fun get(chapter: Chapter) : T {
+        val chapterPage = chapters[chapter]
+        return elements[chapterPage!!]
+    }
+
+    operator fun get(range: IntRange): List<T> {
+        return elements.subList(range.first, range.last)
+    }
+
+    operator fun get(start: Int, end: Int): List<T> {
+        return elements.subList(start, end)
+    }
+
+    operator fun get(fromChapter: Chapter, toChapter: Chapter): List<T> {
+        val from = chapters[fromChapter]!!
+        val to = chapters[toChapter]!!
+        return elements.subList(from, to)
+    }
+
+    operator fun contains(element: T): Boolean {
+        return element in elements
+    }
 }
 
