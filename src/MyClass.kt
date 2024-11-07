@@ -1,5 +1,5 @@
 class MyClass {
-    val myNumber: Int by IntDelegation()
+    val myNumber: Int by IntDelegation(23)
 
     fun test() {
         println(myNumber)
@@ -7,3 +7,7 @@ class MyClass {
 
 }
 
+//class NewClass {
+//    // ! Error
+//    val myNumber: Int by IntDelegation(23)
+//}

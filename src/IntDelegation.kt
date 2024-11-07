@@ -1,7 +1,7 @@
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class IntDelegation :
+class IntDelegation(private val defValue: Int? = null) :
     ReadOnlyProperty<MyClass, Int> {
     private var readCount = 0
     override fun getValue(
@@ -9,7 +9,7 @@ class IntDelegation :
         property: KProperty<*>
     ): Int {
         readCount++
-        return 42
+        return defValue ?: 42
     }
 }
 
